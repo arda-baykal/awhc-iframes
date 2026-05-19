@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mareto Glossary — A Way Home Canada</title>
+
+<!-- ============================================================
+     AWHC Dashboard — Mareto Glossary v3
+     HelpSeeker brand-compliant
+     Embedded in Mareto Compose via IFrame block
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0" rel="stylesheet">
+
+<style>
+  :root {
+    /* HelpSeeker brand */
+    --deep-navy: #0B1F33;
+    --midnight-blue: #102A43;
+    --teal-core: #0FB9B1;
+    --aqua-light: #4FD1C5;
+    --slate-blue: #1E3A5F;
+    --white: #FFFFFF;
+    --near-black: #0A0A0A;
+    --border-light: #E5E7EB;
+    --bg-subtle: #F9FAFB;
+    /* derived */
+    --slate-soft: #64748B;
+    --slate-muted: #94A3B8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--white);
+    color: var(--near-black);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.55;
+  }
+
+  body {
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    background: linear-gradient(to right, var(--deep-navy), var(--slate-blue));
+    color: var(--white);
+    padding: 48px 64px 40px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -8%;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, var(--teal-core) 0%, transparent 60%);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--aqua-light);
+    margin-bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-eyebrow .material-symbols-outlined { font-size: 18px; }
+  .hero h1 {
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .hero .subtitle {
+    font-weight: 300;
+    font-size: 17px;
+    max-width: 680px;
+    opacity: 0.88;
+    line-height: 1.5;
+  }
+
+  /* ===== Section navigation ===== */
+  .toc {
+    background: var(--bg-subtle);
+    padding: 16px 64px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+  .toc a {
+    color: var(--slate-blue);
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .toc a:hover {
+    color: var(--teal-core);
+    border-bottom-color: var(--teal-core);
+  }
+
+  /* ===== Body wrapper ===== */
+  .body-wrap {
+    padding: 56px 64px 72px 64px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  /* ===== Section ===== */
+  .section {
+    margin-bottom: 56px;
+  }
+  .section:last-child { margin-bottom: 0; }
+
+  .section-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 6px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .section-head .icon {
+    color: var(--teal-core);
+    margin-top: 2px;
+  }
+  .section-head .icon .material-symbols-outlined { font-size: 22px; }
+  .section-head .head-text { flex: 1; }
+  .section-head h2 {
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--teal-core);
+    letter-spacing: -0.2px;
+  }
+  .section-head .head-desc {
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--slate-soft);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .section-counter {
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--slate-muted);
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    align-self: center;
+  }
+
+  /* ===== Terms grid ===== */
+  .terms {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 36px;
+    padding-top: 24px;
+  }
+  .term { }
+  .term .name {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--deep-navy);
+    margin-bottom: 6px;
+    letter-spacing: -0.1px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .term .name .acronym {
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--slate-muted);
+    letter-spacing: 0.4px;
+  }
+  .term .definition {
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--near-black);
+    line-height: 1.6;
+  }
+  .term .definition em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--deep-navy);
+  }
+  .term .example {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: var(--bg-subtle);
+    border-left: 2px solid var(--teal-core);
+    font-size: 12px;
+    color: var(--slate-soft);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  .term .example::before {
+    content: 'e.g. ';
+    font-weight: 700;
+    color: var(--slate-blue);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+
+  /* ===== Footer ===== */
+  .footer {
+    padding: 24px 64px;
+    background: var(--bg-subtle);
+    border-top: 1px solid var(--border-light);
+    color: var(--slate-soft);
+    font-size: 11px;
+    font-weight: 300;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    color: var(--deep-navy);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    font-size: 11px;
+  }
+  .footer .brand .material-symbols-outlined {
+    font-size: 16px;
+    color: var(--teal-core);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 900px) {
+    .hero { padding: 36px 32px 30px 32px; }
+    .hero h1 { font-size: 26px; }
+    .toc { padding: 14px 32px; gap: 20px; font-size: 11px; }
+    .body-wrap { padding: 40px 32px 56px 32px; }
+    .terms { grid-template-columns: 1fr; gap: 22px; }
+    .footer { padding: 20px 32px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="hero-eyebrow">
+    <span class="material-symbols-outlined">menu_book</span>
+    Reference
+  </div>
+  <h1>Glossary</h1>
+  <p class="subtitle">Consult this glossary for definitions of the terms used across records, dashboards, and reports in your Mareto workspace.</p>
+</header>
+
+<!-- ===================== TOC ===================== -->
+<nav class="toc" aria-label="Glossary sections">
+  <a href="#entities">Core Entities</a>
+  <a href="#taxonomy">Taxonomy &amp; Types</a>
+  <a href="#funding">Funding</a>
+  <a href="#reporting">Reporting Concepts</a>
+  <a href="#conventions">System Conventions</a>
+</nav>
+
+<!-- ===================== BODY ===================== -->
+<main class="body-wrap">
+
+  <!-- ============== Core Entities ============== -->
+  <section class="section" id="entities">
+    <div class="section-head">
+      <div class="icon"><span class="material-symbols-outlined">hub</span></div>
+      <div class="head-text">
+        <h2>Core Entities</h2>
+        <div class="head-desc">The five top-level records around which all AWHC data is organized.</div>
+      </div>
+      <div class="section-counter">5 terms</div>
+    </div>
+    <div class="terms">
+      <div class="term">
+        <div class="name">Person</div>
+        <div class="definition">An individual engaged by AWHC. Includes staff, board members, partner contacts, elders, lived-experience experts, and government officials.</div>
+      </div>
+      <div class="term">
+        <div class="name">Organization</div>
+        <div class="definition">A partner, funder, government body, service provider, or coalition that AWHC works with. Distinct from the people inside it.</div>
+      </div>
+      <div class="term">
+        <div class="name">Event</div>
+        <div class="definition">A point-in-time interaction logged in the system. Funder attribution lives on the Event level through <em>Funder Category</em> and <em>Specific Funder</em>.</div>
+        <div class="example">A May 13 FNS training session in Calgary with 18 registered attendees.</div>
+      </div>
+      <div class="term">
+        <div class="name">Case</div>
+        <div class="definition">An ongoing engagement with a partner organization. A Case groups multiple related Events into a single relationship record. Status is either Active or Closed.</div>
+      </div>
+      <div class="term">
+        <div class="name">Program</div>
+        <div class="definition">A structured offering AWHC delivers. Each Program is tagged with one of five <em>Activity Streams</em> from the Logic Model.</div>
+        <div class="example">Training and Technical Assistance, MtS Prevention Awards, Community of Practice.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== Taxonomy & Types ============== -->
+  <section class="section" id="taxonomy">
+    <div class="section-head">
+      <div class="icon"><span class="material-symbols-outlined">account_tree</span></div>
+      <div class="head-text">
+        <h2>Taxonomy &amp; Types</h2>
+        <div class="head-desc">The classification layers that describe what kind of Event or Case a record is.</div>
+      </div>
+      <div class="section-counter">5 terms</div>
+    </div>
+    <div class="terms">
+      <div class="term">
+        <div class="name">Event Category</div>
+        <div class="definition">The broadest grouping of an Event. Determines which <em>Event Types</em> and <em>Activity Types</em> are available for selection.</div>
+        <div class="example">Training Activities, Community of Practice, Research &amp; Knowledge Products.</div>
+      </div>
+      <div class="term">
+        <div class="name">Event Type</div>
+        <div class="definition">The second level of Event classification, scoped to a Category. Describes the format of the engagement.</div>
+        <div class="example">CoP Call, Peer Knowledge Exchange, Webinar, Learning Exchange (under Community of Practice).</div>
+      </div>
+      <div class="term">
+        <div class="name">Activity Type</div>
+        <div class="definition">The third level &mdash; identifies the specific curriculum or stream delivered. Applies to Training, Community of Practice, and Research and Knowledge Products. Cascades from Event Category.</div>
+        <div class="example">Housing First for Youth, Family and Natural Supports, Indigenous Homelessness Training, Foundations 101, Prevention.</div>
+      </div>
+      <div class="term">
+        <div class="name">Case Type</div>
+        <div class="definition">The form of an engagement journey. Distinct from Program and Funder; describes the relationship&rsquo;s shape.</div>
+        <div class="example">Coaching, Capacity Building, Policy Engagement, Coalition Building.</div>
+      </div>
+      <div class="term">
+        <div class="name">Activity Stream <span class="acronym">Logic Model</span></div>
+        <div class="definition">One of the five outcome pillars in AWHC&rsquo;s Theory of Change: <em>Influence, Research &amp; Knowledge, Partnerships, Planning,</em> and <em>Practice</em>. Every Program is tagged with one.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== Funding ============== -->
+  <section class="section" id="funding">
+    <div class="section-head">
+      <div class="icon"><span class="material-symbols-outlined">payments</span></div>
+      <div class="head-text">
+        <h2>Funding</h2>
+        <div class="head-desc">How AWHC tracks who pays for each Event for funder reporting.</div>
+      </div>
+      <div class="section-counter">2 terms</div>
+    </div>
+    <div class="terms">
+      <div class="term">
+        <div class="name">Funder Category</div>
+        <div class="definition">The three-bucket model for attributing Event funding. Drives the dashboard&rsquo;s funding-attribution view.</div>
+        <div class="example">Government of Canada, Philanthropic, Fee for Service.</div>
+      </div>
+      <div class="term">
+        <div class="name">Specific Funder</div>
+        <div class="definition">The free-text name of the actual funding source behind an Event. Captured alongside Funder Category for granular reporting.</div>
+        <div class="example">ESDC, Home Depot Canada Foundation, Calgary Homeless Foundation.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== Reporting Concepts ============== -->
+  <section class="section" id="reporting">
+    <div class="section-head">
+      <div class="icon"><span class="material-symbols-outlined">monitoring</span></div>
+      <div class="head-text">
+        <h2>Reporting Concepts</h2>
+        <div class="head-desc">The two layers of impact AWHC reports against the Logic Model.</div>
+      </div>
+      <div class="section-counter">2 terms</div>
+    </div>
+    <div class="terms">
+      <div class="term">
+        <div class="name">Outputs</div>
+        <div class="definition">Quantitative deliverables computed automatically from Event records.</div>
+        <div class="example">Count of trainings delivered, partners engaged, Community of Practice calls held, policy briefs published.</div>
+      </div>
+      <div class="term">
+        <div class="name">Outcomes</div>
+        <div class="definition">Qualitative and quantitative results captured at the Event level through post-event surveys. Results aggregate by <em>Activity Type</em> and <em>Program</em> for funder reporting.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== System Conventions ============== -->
+  <section class="section" id="conventions">
+    <div class="section-head">
+      <div class="icon"><span class="material-symbols-outlined">settings</span></div>
+      <div class="head-text">
+        <h2>System Conventions</h2>
+        <div class="head-desc">Patterns the platform follows so the data stays clean over time.</div>
+      </div>
+      <div class="section-counter">2 terms</div>
+    </div>
+    <div class="terms">
+      <div class="term">
+        <div class="name">Active vs Closed</div>
+        <div class="definition">Records carry a lifecycle flag rather than being deleted. Closed records remain searchable and reportable, but are hidden from default views.</div>
+      </div>
+      <div class="term">
+        <div class="name">Hide, Don&rsquo;t Delete</div>
+        <div class="definition">A historical record (an Event that happened, an Organization no longer engaged) is preserved with <em>Active = false</em> rather than removed &mdash; so historical reports stay reproducible.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <span class="brand">
+    <span class="material-symbols-outlined">graph_2</span>
+    Mareto &middot; A Way Home Canada
+  </span>
+  <span>Glossary v3 &middot; HelpSeeker Technologies</span>
+</footer>
+
+</body>
+</html>
