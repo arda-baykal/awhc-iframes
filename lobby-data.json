@@ -10,5 +10,19 @@
       "meta": "Conference Attendance \u00b7 Training & Technical Assistance"
     }
   ],
+  "detailed": [
+    {
+      "date": "2026-05-13",
+      "name": "Test 1",
+      "meta": "Conference Attendance \u00b7 Training & Technical Assistance",
+      "province": "491834040308006913",
+      "city": "Vancouver",
+      "coordinator": "Arda",
+      "organizations": [
+        "HelpSeeker"
+      ],
+      "attendee_count": 3
+    }
+  ],
   "total": 1
 }
