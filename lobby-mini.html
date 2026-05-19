@@ -111,12 +111,14 @@
     max-width: 480px;
     line-height: 1.45;
   }
-  .hero a.full-link {
+  .hero .full-link {
     z-index: 1;
     position: relative;
+    font-family: inherit;
     font-size: 11px;
     font-weight: 700;
     color: var(--white);
+    background: transparent;
     text-decoration: none;
     letter-spacing: 0.8px;
     text-transform: uppercase;
@@ -126,14 +128,143 @@
     padding: 8px 14px;
     border: 1px solid rgba(255,255,255,0.35);
     border-radius: 6px;
+    cursor: pointer;
     transition: background 0.15s, border-color 0.15s;
     white-space: nowrap;
   }
-  .hero a.full-link:hover {
+  .hero .full-link:hover {
     background: rgba(255,255,255,0.10);
     border-color: rgba(255,255,255,0.55);
   }
-  .hero a.full-link .material-symbols-outlined { font-size: 13px; }
+  .hero .full-link .material-symbols-outlined { font-size: 13px; }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 31, 51, 0.55);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 1000;
+    padding: 24px 16px;
+    overflow-y: auto;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--white);
+    border-radius: 14px;
+    max-width: 760px;
+    width: 100%;
+    box-shadow: 0 16px 56px rgba(11, 31, 51, 0.22);
+    overflow: hidden;
+    animation: modalIn 0.18s ease-out;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .modal-head {
+    background: linear-gradient(to right, var(--deep-navy), var(--slate));
+    color: var(--white);
+    padding: 22px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .modal-head::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -8%;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, var(--teal) 0%, transparent 60%);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+  .modal-head h2 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+  }
+  .modal-head .modal-sub {
+    font-size: 12px;
+    font-weight: 300;
+    opacity: 0.82;
+  }
+  .modal-close {
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.25);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-family: inherit;
+    z-index: 1;
+    transition: background 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.22); }
+  .modal-close .material-symbols-outlined { font-size: 20px; }
+
+  .modal-body {
+    padding: 22px 28px 26px 28px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  .modal-empty {
+    padding: 24px 0;
+    color: var(--slate-muted);
+    text-align: center;
+    font-weight: 300;
+    font-size: 13px;
+  }
+  .modal-table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .modal-row {
+    display: table-row;
+  }
+  .modal-row > div {
+    display: table-cell;
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--border-2);
+    font-size: 13px;
+    vertical-align: top;
+  }
+  .modal-row.head > div {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--slate-muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .modal-row .col-date { width: 90px; color: var(--teal); font-weight: 700; }
+  .modal-row .col-name { color: var(--deep-navy); font-weight: 700; }
+  .modal-row .col-name .sub { display: block; font-weight: 300; color: var(--slate-soft); font-size: 11px; margin-top: 2px; }
+  .modal-row .col-loc { color: var(--slate); width: 130px; }
+  .modal-row .col-coord { color: var(--slate-soft); width: 110px; }
+  .modal-footer {
+    background: var(--bg-subtle);
+    padding: 14px 28px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--slate-muted);
+    text-align: center;
+    font-weight: 300;
+  }
 
   /* ===== BODY ===== */
   .body {
@@ -263,10 +394,10 @@
       <h1>Lobby Activity</h1>
       <p class="subtitle">Federally reportable lobbying communications, refreshed from your Mareto events.</p>
     </div>
-    <a href="https://main.mareto.helpseeker.org/compose/ns/AWHCanada/pages/lobby_reportable_events" target="_blank" rel="noopener noreferrer" class="full-link">
+    <button type="button" class="full-link" id="open-modal">
       Full register
       <span class="material-symbols-outlined">arrow_forward</span>
-    </a>
+    </button>
   </header>
 
   <!-- ===== BODY ===== -->
@@ -298,14 +429,38 @@
   </div>
 </div>
 
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <header class="modal-head">
+      <div>
+        <h2 id="modal-title">Lobby Activity — Full Register</h2>
+        <div class="modal-sub">All federally reportable lobbying communications captured in Mareto</div>
+      </div>
+      <button class="modal-close" id="modal-close-btn" aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </header>
+    <div class="modal-body" id="modal-body">
+      <div class="modal-empty">Loading&hellip;</div>
+    </div>
+    <div class="modal-footer" id="modal-footer">&mdash;</div>
+  </div>
+</div>
+
 <script>
 (function() {
+  let dataCache = null;
+
   fetch('./lobby-data.json?v=' + Date.now())
     .then(r => r.ok ? r.json() : null)
-    .then(data => render(data || placeholder()))
-    .catch(() => render(placeholder()));
+    .then(data => {
+      dataCache = data || placeholder();
+      render(dataCache);
+    })
+    .catch(() => { dataCache = placeholder(); render(dataCache); });
 
-  function placeholder() { return { ytd: 0, quarter: 0, last30d: 0, recent: [] }; }
+  function placeholder() { return { ytd: 0, quarter: 0, last30d: 0, recent: [], detailed: [] }; }
 
   function render(d) {
     document.getElementById('kpi-ytd').textContent = d.ytd ?? '—';
@@ -343,6 +498,73 @@
     });
   }
 
+  function renderModal() {
+    const body = document.getElementById('modal-body');
+    const footer = document.getElementById('modal-footer');
+    body.innerHTML = '';
+    const items = (dataCache && Array.isArray(dataCache.detailed)) ? dataCache.detailed : [];
+    if (items.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'modal-empty';
+      empty.textContent = 'No reportable events on record yet. Add events in Mareto and mark them as Lobby-Reportable to populate this register.';
+      body.appendChild(empty);
+      footer.textContent = 'Last refreshed ' + formatTimestamp(dataCache && dataCache.generated_at);
+      return;
+    }
+    const table = document.createElement('div');
+    table.className = 'modal-table';
+    // header row
+    const head = document.createElement('div');
+    head.className = 'modal-row head';
+    ['Date','Event','Location','Coordinator'].forEach(label => {
+      const c = document.createElement('div');
+      c.textContent = label;
+      head.appendChild(c);
+    });
+    table.appendChild(head);
+    items.forEach(it => {
+      const row = document.createElement('div');
+      row.className = 'modal-row';
+
+      const cDate = document.createElement('div');
+      cDate.className = 'col-date';
+      cDate.textContent = formatDate(it.date);
+      row.appendChild(cDate);
+
+      const cName = document.createElement('div');
+      cName.className = 'col-name';
+      cName.appendChild(document.createTextNode(it.name || 'Untitled event'));
+      if (it.meta) {
+        const s = document.createElement('span');
+        s.className = 'sub';
+        s.textContent = it.meta;
+        cName.appendChild(s);
+      }
+      if (it.organizations && it.organizations.length) {
+        const s2 = document.createElement('span');
+        s2.className = 'sub';
+        s2.textContent = it.organizations.slice(0,3).join(', ') + (it.organizations.length > 3 ? ' +' + (it.organizations.length - 3) + ' more' : '');
+        cName.appendChild(s2);
+      }
+      row.appendChild(cName);
+
+      const cLoc = document.createElement('div');
+      cLoc.className = 'col-loc';
+      const locParts = [it.city, it.province].filter(Boolean);
+      cLoc.textContent = locParts.length ? locParts.join(', ') : '—';
+      row.appendChild(cLoc);
+
+      const cCoord = document.createElement('div');
+      cCoord.className = 'col-coord';
+      cCoord.textContent = it.coordinator || '—';
+      row.appendChild(cCoord);
+
+      table.appendChild(row);
+    });
+    body.appendChild(table);
+    footer.textContent = items.length + ' total events · refreshed ' + formatTimestamp(dataCache.generated_at);
+  }
+
   function formatDate(iso) {
     if (!iso) return '—';
     const d = new Date(iso);
@@ -350,6 +572,23 @@
     const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
     return months[d.getMonth()] + ' ' + d.getDate();
   }
+  function formatTimestamp(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    if (isNaN(d)) return iso;
+    return d.toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  // Modal wiring
+  const modal = document.getElementById('modal');
+  const openBtn = document.getElementById('open-modal');
+  const closeBtn = document.getElementById('modal-close-btn');
+  function openModal() { renderModal(); modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeModal() { modal.classList.remove('open'); document.body.style.overflow = ''; }
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 })();
 </script>
 
