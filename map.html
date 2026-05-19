@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events by Province — AWHC</title>
+
+<!-- ============================================================
+     AWHC Dashboard — Canada map of events by province
+     Leaflet.js + Canada provinces GeoJSON + pre-baked counts
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0" rel="stylesheet">
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<style>
+  :root {
+    --deep-navy:     #0B1F33;
+    --slate:         #1E3A5F;
+    --teal:          #0FB9B1;
+    --aqua:          #4FD1C5;
+    --teal-soft:     #E6F7F6;
+    --white:         #FFFFFF;
+    --near-black:    #0A0A0A;
+    --border:        #E5E7EB;
+    --border-2:      #E8EDF2;
+    --bg-subtle:     #F9FAFB;
+    --slate-soft:    #64748B;
+    --slate-muted:   #94A3B8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+    background: transparent;
+    color: var(--near-black);
+    -webkit-font-smoothing: antialiased;
+  }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+  }
+
+  .widget {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(11,31,51,0.04), 0 4px 12px rgba(11,31,51,0.03);
+  }
+
+  /* HERO (same scale as lobby/glossary) */
+  .hero {
+    background: linear-gradient(to right, var(--deep-navy), var(--slate));
+    color: var(--white);
+    padding: 28px 32px 26px 32px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -8%;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, var(--teal) 0%, transparent 60%);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+  .hero-text { z-index: 1; position: relative; max-width: 70%; }
+  .hero-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--aqua);
+    margin-bottom: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .hero-eyebrow .material-symbols-outlined { font-size: 16px; }
+  .hero h1 {
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -0.4px;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .hero .subtitle {
+    font-weight: 300;
+    font-size: 13px;
+    opacity: 0.85;
+    max-width: 540px;
+    line-height: 1.45;
+  }
+  .hero-stat {
+    z-index: 1;
+    position: relative;
+    text-align: right;
+  }
+  .hero-stat .num {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.5px;
+  }
+  .hero-stat .lbl {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.78;
+    margin-top: 6px;
+  }
+
+  /* MAP CONTAINER */
+  .map-wrap {
+    position: relative;
+    height: 460px;
+    background: var(--bg-subtle);
+  }
+  #map {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-subtle);
+  }
+  /* Override Leaflet's default fonts */
+  .leaflet-container { font-family: 'Lato', sans-serif !important; background: var(--bg-subtle); }
+  .leaflet-control-attribution { font-size: 9px; }
+
+  /* LEGEND */
+  .legend {
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--slate-soft);
+  }
+  .legend-title {
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--slate-muted);
+    font-size: 10px;
+  }
+  .legend-scale {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-swatch {
+    width: 24px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+  }
+  .legend-num {
+    color: var(--slate);
+    font-variant-numeric: tabular-nums;
+  }
+  .legend-stamp {
+    font-size: 10px;
+    color: var(--slate-muted);
+    font-weight: 300;
+  }
+
+  /* HOVER TOOLTIP styling (Leaflet) */
+  .leaflet-tooltip.province-tip {
+    background: var(--deep-navy);
+    color: var(--white);
+    border: 0;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    box-shadow: 0 4px 12px rgba(11,31,51,0.22);
+  }
+  .leaflet-tooltip.province-tip::before { display: none; }
+  .leaflet-tooltip.province-tip .name { font-weight: 700; }
+  .leaflet-tooltip.province-tip .count {
+    color: var(--aqua);
+    font-weight: 700;
+    margin-left: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="widget">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow">
+        <span class="material-symbols-outlined">map</span>
+        Geographic reach
+      </div>
+      <h1>Events by Province</h1>
+      <p class="subtitle">Where AWHC has delivered events across Canada. Provinces are shaded by event volume; hover any region for the count.</p>
+    </div>
+    <div class="hero-stat">
+      <div class="num" id="hero-total">&mdash;</div>
+      <div class="lbl">Events total</div>
+    </div>
+  </header>
+
+  <!-- MAP -->
+  <div class="map-wrap"><div id="map"></div></div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <span class="legend-title">Event count</span>
+    <div class="legend-scale"><span class="legend-swatch" style="background:#F0F4F8"></span><span class="legend-num">0</span></div>
+    <div class="legend-scale"><span class="legend-swatch" style="background:#E6F7F6"></span><span class="legend-num">1-2</span></div>
+    <div class="legend-scale"><span class="legend-swatch" style="background:#7FDCD8"></span><span class="legend-num">3-5</span></div>
+    <div class="legend-scale"><span class="legend-swatch" style="background:#0FB9B1"></span><span class="legend-num">6-10</span></div>
+    <div class="legend-scale"><span class="legend-swatch" style="background:#0F7670"></span><span class="legend-num">11-20</span></div>
+    <div class="legend-scale"><span class="legend-swatch" style="background:#0B1F33"></span><span class="legend-num">20+</span></div>
+    <span class="legend-stamp" id="legend-stamp">Loading&hellip;</span>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  // ===== Color scale (HelpSeeker palette, teal-to-navy) =====
+  function color(count) {
+    if (!count) return '#F0F4F8';
+    if (count <= 2) return '#E6F7F6';
+    if (count <= 5) return '#7FDCD8';
+    if (count <= 10) return '#0FB9B1';
+    if (count <= 20) return '#0F7670';
+    return '#0B1F33';
+  }
+
+  // ===== Province name aliasing — GeoJSON names → AWHC labels =====
+  // (Mostly identical; just handle Yukon variant)
+  const aliasMap = {
+    'Yukon Territory': 'Yukon',
+  };
+  function aliasName(n) { return aliasMap[n] || n; }
+
+  // ===== Load GeoJSON + data in parallel =====
+  Promise.all([
+    fetch('./canada.geojson').then(r => r.json()),
+    fetch('./events-by-province.json?v=' + Date.now()).then(r => r.ok ? r.json() : { counts: {}, total: 0 }).catch(() => ({ counts: {}, total: 0 }))
+  ]).then(([geojson, data]) => {
+    document.getElementById('hero-total').textContent = data.total ?? 0;
+    document.getElementById('legend-stamp').textContent = data.generated_at
+      ? ('Refreshed ' + formatDate(data.generated_at))
+      : 'No data baked yet';
+
+    const counts = data.counts || {};
+
+    // Init map
+    const map = L.map('map', {
+      attributionControl: true,
+      zoomControl: true,
+      scrollWheelZoom: false,
+      dragging: true,
+    }).setView([60, -96], 3);
+
+    // Subtle base — just the GeoJSON, no tile layer (cleaner look)
+    L.geoJSON(geojson, {
+      style: feature => {
+        const name = aliasName(feature.properties.name);
+        const count = counts[name] || 0;
+        return {
+          fillColor: color(count),
+          weight: 1,
+          color: '#FFFFFF',
+          opacity: 1,
+          fillOpacity: 0.94,
+        };
+      },
+      onEachFeature: (feature, layer) => {
+        const name = aliasName(feature.properties.name);
+        const count = counts[name] || 0;
+        layer.bindTooltip(
+          `<span class="name">${escape(name)}</span><span class="count">${count}</span>`,
+          { className: 'province-tip', sticky: true, direction: 'top' }
+        );
+        layer.on('mouseover', () => {
+          layer.setStyle({ weight: 2, color: '#0FB9B1' });
+        });
+        layer.on('mouseout', () => {
+          layer.setStyle({ weight: 1, color: '#FFFFFF' });
+        });
+      }
+    }).addTo(map);
+
+    // Fit to bounds
+    map.fitBounds([[42, -141], [70, -52]], { padding: [12, 12] });
+
+    function escape(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function formatDate(iso) {
+      try {
+        const d = new Date(iso);
+        return d.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' });
+      } catch { return iso; }
+    }
+  }).catch(err => {
+    console.error('Map load failed', err);
+    document.getElementById('map').innerHTML =
+      '<div style="padding:60px;text-align:center;color:#94A3B8;font-weight:300">Map data unavailable</div>';
+  });
+})();
+</script>
+
+</body>
+</html>
