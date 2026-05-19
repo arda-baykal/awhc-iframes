@@ -1,9 +1,19 @@
 {
   "generated_at": "2026-05-19T00:00:00+00:00",
   "ytd": 1,
-  "quarter": 1,
+  "quarter": 2,
   "last30d": 1,
   "recent": [
+    {
+      "date": "2026-07-02",
+      "name": "AWHC Live Consultation Days",
+      "meta": "Consultation \u00b7 Training & Technical Assistance"
+    },
+    {
+      "date": "2026-06-03",
+      "name": "National Awareness Event Test",
+      "meta": "Sector Roundtable / Convening \u00b7 Training & Technical Assistance"
+    },
     {
       "date": "2026-05-13",
       "name": "Test 1",
@@ -11,6 +21,29 @@
     }
   ],
   "detailed": [
+    {
+      "date": "2026-07-02",
+      "name": "AWHC Live Consultation Days",
+      "meta": "Consultation \u00b7 Training & Technical Assistance",
+      "province": "Quebec",
+      "city": "Montreal",
+      "coordinator": "James",
+      "organizations": [],
+      "attendee_count": 0
+    },
+    {
+      "date": "2026-06-03",
+      "name": "National Awareness Event Test",
+      "meta": "Sector Roundtable / Convening \u00b7 Training & Technical Assistance",
+      "province": "Alberta",
+      "city": "Calgary",
+      "coordinator": "Mickey",
+      "organizations": [
+        "Oklahoma Office of Juvenile Affairs",
+        "Trellis Society"
+      ],
+      "attendee_count": 5
+    },
     {
       "date": "2026-05-13",
       "name": "Test 1",
@@ -24,5 +57,5 @@
       "attendee_count": 3
     }
   ],
-  "total": 1
+  "total": 3
 }
