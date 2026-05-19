@@ -1,0 +1,44 @@
+# Hourly refresh of AWHC iframe widget data from Corteza.
+# Requires CORTEZA_TOKEN secret (long-lived service token for AWHC namespace).
+name: Refresh dashboard data
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # every hour at :00
+  workflow_dispatch:        # also allow manual trigger from Actions tab
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # needed to commit updated JSON back to main
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run bake script
+        env:
+          CORTEZA_TOKEN: ${{ secrets.CORTEZA_TOKEN }}
+        run: |
+          if [ -z "$CORTEZA_TOKEN" ]; then
+            echo "::warning::CORTEZA_TOKEN secret not set — skipping bake. Add the secret in Settings → Secrets and variables → Actions."
+            exit 0
+          fi
+          python3 bake-all.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- lobby-data.json events-by-province.json; then
+            echo "No data changes — nothing to commit."
+          else
+            git add lobby-data.json events-by-province.json
+            git commit -m "Auto-refresh dashboard data ($(date -u +%Y-%m-%dT%H:%M))"
+            git push
+          fi
