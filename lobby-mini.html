@@ -6,9 +6,8 @@
 <title>Lobby Activity — AWHC</title>
 
 <!-- ============================================================
-     AWHC Dashboard — Lobby Activity (compact widget for Home block)
-     HelpSeeker brand-compliant
-     Pre-bake data via lobby-data.json (placeholder values today)
+     AWHC Dashboard — Lobby Activity widget (Home page IFrame block)
+     v2: glossary-style hero banner + color-varied KPI tiles
      ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,6 +25,7 @@
     --white:         #FFFFFF;
     --near-black:    #0A0A0A;
     --border:        #E5E7EB;
+    --border-2:      #E8EDF2;
     --bg-subtle:     #F9FAFB;
     --slate-soft:    #64748B;
     --slate-muted:   #94A3B8;
@@ -40,7 +40,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-
   body { padding: 0; }
 
   .material-symbols-outlined {
@@ -52,69 +51,94 @@
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 24px 26px;
+    overflow: hidden;
     box-shadow:
       0 1px 3px rgba(11, 31, 51, 0.04),
       0 4px 12px rgba(11, 31, 51, 0.03);
-    max-width: 100%;
   }
 
-  /* ===== HEADER ===== */
-  .head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-    padding-bottom: 16px;
-    margin-bottom: 18px;
-    border-bottom: 1px solid var(--border);
-  }
-  .head-text {
+  /* ===== HERO BANNER (glossary-style) ===== */
+  .hero {
+    background: linear-gradient(to right, var(--deep-navy), var(--slate));
+    color: var(--white);
+    padding: 28px 32px 26px 32px;
+    position: relative;
+    overflow: hidden;
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
+    gap: 16px;
   }
-  .head-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    background: var(--bg-subtle);
-    color: var(--teal);
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -8%;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, var(--teal) 0%, transparent 60%);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+  .hero-text {
+    z-index: 1;
+    position: relative;
+    max-width: 70%;
+  }
+  .hero-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--aqua);
+    margin-bottom: 8px;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    gap: 7px;
   }
-  .head-icon .material-symbols-outlined { font-size: 22px; }
-  .head h2 {
+  .hero-eyebrow .material-symbols-outlined { font-size: 16px; }
+  .hero h1 {
     font-weight: 700;
-    font-size: 17px;
-    color: var(--deep-navy);
-    letter-spacing: -0.1px;
-    line-height: 1.2;
+    font-size: 24px;
+    letter-spacing: -0.4px;
+    line-height: 1.1;
+    margin-bottom: 6px;
   }
-  .head .sub {
+  .hero .subtitle {
     font-weight: 300;
-    font-size: 12px;
-    color: var(--slate-soft);
-    margin-top: 2px;
+    font-size: 13px;
+    opacity: 0.85;
+    max-width: 480px;
+    line-height: 1.45;
   }
-  .head a.full-link {
-    font-size: 12px;
+  .hero a.full-link {
+    z-index: 1;
+    position: relative;
+    font-size: 11px;
     font-weight: 700;
-    color: var(--teal);
+    color: var(--white);
     text-decoration: none;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 6px 0;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.15s;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 6px;
+    transition: background 0.15s, border-color 0.15s;
     white-space: nowrap;
   }
-  .head a.full-link:hover { border-bottom-color: var(--teal); }
-  .head a.full-link .material-symbols-outlined { font-size: 14px; }
+  .hero a.full-link:hover {
+    background: rgba(255,255,255,0.10);
+    border-color: rgba(255,255,255,0.55);
+  }
+  .hero a.full-link .material-symbols-outlined { font-size: 13px; }
+
+  /* ===== BODY ===== */
+  .body {
+    padding: 22px 26px 24px 26px;
+  }
 
   /* ===== KPI TILES ===== */
   .kpis {
@@ -124,16 +148,14 @@
     margin-bottom: 22px;
   }
   .kpi {
-    background: var(--bg-subtle);
-    border: 1px solid var(--border);
     border-radius: 10px;
     padding: 14px 16px;
-    position: relative;
-    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-subtle);
   }
-  .kpi.t-teal  { background: rgba(15, 185, 177, 0.06); border-color: rgba(15, 185, 177, 0.20); }
-  .kpi.t-aqua  { background: rgba(79, 209, 197, 0.08); border-color: rgba(79, 209, 197, 0.22); }
-  .kpi.t-slate { background: rgba(30, 58, 95, 0.05);  border-color: rgba(30, 58, 95, 0.16); }
+  .kpi.t-teal  { background: rgba(15, 185, 177, 0.07); border-color: rgba(15, 185, 177, 0.22); }
+  .kpi.t-aqua  { background: rgba(79, 209, 197, 0.10); border-color: rgba(79, 209, 197, 0.26); }
+  .kpi.t-slate { background: rgba(30, 58, 95, 0.06);   border-color: rgba(30, 58, 95, 0.18); }
 
   .kpi-value {
     font-weight: 700;
@@ -144,14 +166,14 @@
     font-variant-numeric: tabular-nums;
   }
   .kpi-label {
-    font-weight: 400;
+    font-weight: 700;
     font-size: 11px;
     margin-top: 4px;
     letter-spacing: 0.6px;
     text-transform: uppercase;
   }
   .kpi.t-teal  .kpi-label { color: var(--teal); }
-  .kpi.t-aqua  .kpi-label { color: #2B9B92; } /* slightly deeper for legibility */
+  .kpi.t-aqua  .kpi-label { color: #2B9B92; }
   .kpi.t-slate .kpi-label { color: var(--slate); }
 
   .kpi-accent {
@@ -173,6 +195,8 @@
     letter-spacing: 1.4px;
     text-transform: uppercase;
     margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-2);
   }
   .recent-list { list-style: none; }
   .recent-item {
@@ -205,7 +229,6 @@
     margin-top: 2px;
     font-weight: 300;
   }
-
   .empty {
     padding: 20px 0;
     text-align: center;
@@ -215,9 +238,11 @@
   }
 
   /* ===== RESPONSIVE ===== */
-  @media (max-width: 560px) {
-    .widget { padding: 20px 18px; }
-    .head { flex-wrap: wrap; }
+  @media (max-width: 620px) {
+    .hero { flex-direction: column; align-items: flex-start; padding: 22px 22px; }
+    .hero-text { max-width: 100%; }
+    .hero h1 { font-size: 20px; }
+    .body { padding: 18px 20px 20px 20px; }
     .kpis { gap: 8px; }
     .kpi { padding: 12px 12px; }
     .kpi-value { font-size: 24px; }
@@ -227,61 +252,60 @@
 <body>
 
 <div class="widget">
-  <div class="head">
-    <div class="head-text">
-      <div class="head-icon"><span class="material-symbols-outlined">gavel</span></div>
-      <div>
-        <h2>Lobby Activity</h2>
-        <div class="sub">Federally reportable lobbying communications</div>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow">
+        <span class="material-symbols-outlined">gavel</span>
+        Live snapshot
       </div>
+      <h1>Lobby Activity</h1>
+      <p class="subtitle">Federally reportable lobbying communications, refreshed from your Mareto events.</p>
     </div>
-    <a href="https://main.mareto.helpseeker.org/compose/ns/AWHCanada/page/494394316987432961" target="_top" class="full-link">
+    <a href="https://main.mareto.helpseeker.org/compose/ns/AWHCanada/pages/lobby_reportable_events" target="_top" class="full-link">
       Full register
       <span class="material-symbols-outlined">arrow_forward</span>
     </a>
-  </div>
+  </header>
 
-  <div class="kpis">
-    <div class="kpi t-teal">
-      <div class="kpi-value" id="kpi-ytd">&mdash;</div>
-      <div class="kpi-label">Year to date</div>
-      <span class="kpi-accent"></span>
-    </div>
-    <div class="kpi t-aqua">
-      <div class="kpi-value" id="kpi-quarter">&mdash;</div>
-      <div class="kpi-label">This quarter</div>
-      <span class="kpi-accent"></span>
-    </div>
-    <div class="kpi t-slate">
-      <div class="kpi-value" id="kpi-30d">&mdash;</div>
-      <div class="kpi-label">Last 30 days</div>
-      <span class="kpi-accent"></span>
-    </div>
-  </div>
+  <!-- ===== BODY ===== -->
+  <div class="body">
 
-  <div class="recent-head">Recent activity</div>
-  <ul class="recent-list" id="recent-list">
-    <li class="empty">Loading&hellip;</li>
-  </ul>
+    <div class="kpis">
+      <div class="kpi t-teal">
+        <div class="kpi-value" id="kpi-ytd">&mdash;</div>
+        <div class="kpi-label">Year to date</div>
+        <span class="kpi-accent"></span>
+      </div>
+      <div class="kpi t-aqua">
+        <div class="kpi-value" id="kpi-quarter">&mdash;</div>
+        <div class="kpi-label">This quarter</div>
+        <span class="kpi-accent"></span>
+      </div>
+      <div class="kpi t-slate">
+        <div class="kpi-value" id="kpi-30d">&mdash;</div>
+        <div class="kpi-label">Last 30 days</div>
+        <span class="kpi-accent"></span>
+      </div>
+    </div>
+
+    <div class="recent-head">Recent activity</div>
+    <ul class="recent-list" id="recent-list">
+      <li class="empty">Loading&hellip;</li>
+    </ul>
+
+  </div>
 </div>
 
 <script>
 (function() {
-  // Pull live data from co-hosted lobby-data.json
-  // Falls back to placeholder structure if not present
   fetch('./lobby-data.json?v=' + Date.now())
     .then(r => r.ok ? r.json() : null)
     .then(data => render(data || placeholder()))
     .catch(() => render(placeholder()));
 
-  function placeholder() {
-    return {
-      ytd: 0,
-      quarter: 0,
-      last30d: 0,
-      recent: []
-    };
-  }
+  function placeholder() { return { ytd: 0, quarter: 0, last30d: 0, recent: [] }; }
 
   function render(d) {
     document.getElementById('kpi-ytd').textContent = d.ytd ?? '—';
@@ -291,7 +315,6 @@
     const ul = document.getElementById('recent-list');
     ul.innerHTML = '';
     const items = Array.isArray(d.recent) ? d.recent.slice(0, 5) : [];
-
     if (items.length === 0) {
       const li = document.createElement('li');
       li.className = 'empty';
@@ -299,7 +322,6 @@
       ul.appendChild(li);
       return;
     }
-
     items.forEach(it => {
       const li = document.createElement('li');
       li.className = 'recent-item';
@@ -308,8 +330,7 @@
       dateEl.textContent = formatDate(it.date);
       const evEl = document.createElement('div');
       evEl.className = 'recent-event';
-      const nameText = document.createTextNode(it.name || 'Untitled event');
-      evEl.appendChild(nameText);
+      evEl.appendChild(document.createTextNode(it.name || 'Untitled event'));
       if (it.meta) {
         const span = document.createElement('span');
         span.className = 'meta';
