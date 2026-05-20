@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-05-19T19:54:43.867897+00:00",
-  "total": 3,
-  "with_province": 3,
+  "generated_at": "2026-05-20T14:33:39.293593+00:00",
+  "total": 4,
+  "with_province": 4,
   "counts": {
     "British Columbia": 1,
     "Alberta": 1,
-    "Saskatchewan": 0,
+    "Saskatchewan": 1,
     "Manitoba": 0,
     "Ontario": 0,
     "Quebec": 1,

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-19T00:00:00+00:00",
-  "ytd": 1,
-  "quarter": 2,
-  "last30d": 1,
+  "generated_at": "2026-05-20T14:33:39.293593+00:00",
+  "ytd": 2,
+  "quarter": 3,
+  "last30d": 2,
   "recent": [
     {
       "date": "2026-07-02",
@@ -18,6 +18,11 @@
       "date": "2026-05-13",
       "name": "Test 1",
       "meta": "Conference Attendance \u00b7 Training & Technical Assistance"
+    },
+    {
+      "date": "2026-05-13",
+      "name": "AWHC Test CoP",
+      "meta": "Community of Practice (CoP) Call \u00b7 Community of Practice"
     }
   ],
   "detailed": [
@@ -54,8 +59,24 @@
       "organizations": [
         "HelpSeeker"
       ],
-      "attendee_count": 3
+      "attendee_count": 4
+    },
+    {
+      "date": "2026-05-13",
+      "name": "AWHC Test CoP",
+      "meta": "Community of Practice (CoP) Call \u00b7 Community of Practice",
+      "province": "Saskatchewan",
+      "city": "Saskatoon",
+      "coordinator": "Heidi",
+      "organizations": [
+        "Home Now",
+        "HelpSeeker",
+        "Trellis Society",
+        "Centrepoint",
+        "A Way Home Canada"
+      ],
+      "attendee_count": 12
     }
   ],
-  "total": 3
+  "total": 4
 }
