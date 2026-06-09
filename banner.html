@@ -1,74 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AWHC Banner</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-  :root {
-    --deep-navy: #1B2A4A;
-    --navy: #1E3A5F;
-    --teal: #32DAD7;
-    --teal-deep: #0FB9B1;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; font-family: 'Lato','Helvetica Neue',Arial,sans-serif; }
-  #banner {
-    height: 100%;
-    min-height: 96px;
-    background: linear-gradient(120deg, var(--deep-navy) 0%, var(--navy) 60%, var(--teal-deep) 140%);
-    border-left: 5px solid var(--teal);
-    border-radius: 10px;
-    padding: 20px 26px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    color: #fff;
-    -webkit-font-smoothing: antialiased;
-  }
-  #title {
-    font-size: 23px; font-weight: 700; line-height: 1.15;
-    letter-spacing: .2px;
-  }
-  #title .accent { color: var(--teal); }
-  #subtitle {
-    margin-top: 6px;
-    font-size: 13px; font-weight: 400; line-height: 1.45;
-    color: #cdd8e6;
-    max-width: 920px;
-  }
-  #caveat {
-    margin-top: 7px;
-    font-size: 11px; font-weight: 300; font-style: italic;
-    color: #8aa0bd;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+:root{--navy:#0B1F33;--mid:#102A43;--teal:#0FB9B1;--aqua:#4FD1C5;--text:#fff;--soft:#EAF7F6;}
+*{box-sizing:border-box} body{margin:0;font-family:Lato,Arial,sans-serif;background:transparent;color:var(--text);}
+.header{min-height:150px;padding:24px 28px;background:linear-gradient(135deg,var(--navy),var(--mid) 58%,#0E8C86);border-radius:8px;box-shadow:0 18px 42px rgba(11,31,51,.16);overflow:hidden;}
+.top{display:flex;gap:20px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.eyebrow{margin:0 0 8px;color:var(--aqua);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.02em}
+.title{margin:0 0 8px;font-size:31px;line-height:1.1;font-weight:700}
+.title .accent{color:var(--aqua)}
+.lead{margin:0;max-width:760px;color:var(--soft);font-size:15px;line-height:1.45;font-weight:300}
+.caveat{margin:8px 0 0;color:#9fb6cf;font-size:12px;font-style:italic;font-weight:300}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(160px,1fr));gap:10px;margin-top:18px}
+.stat{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.10);border-radius:8px;padding:12px 14px}
+.label{display:block;margin-bottom:6px;color:#7EDDD5;font-size:11px;font-weight:700;text-transform:uppercase}
+.value{font-size:16px;font-weight:700;color:#fff}
+@media(max-width:720px){.header{padding:20px;min-height:0}.title{font-size:25px}.stats{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div id="banner">
-  <div id="title"></div>
-  <div id="subtitle"></div>
-  <div id="caveat"></div>
-</div>
+<section class="header">
+  <div class="top">
+    <div>
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1 class="title" id="title"></h1>
+      <p class="lead" id="lead"></p>
+      <p class="caveat" id="caveat"></p>
+    </div>
+  </div>
+  <div class="stats" id="stats" style="display:none"></div>
+</section>
 <script>
-  function qp(name) {
-    var m = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-    return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : '';
+  function qp(n){var m=new RegExp('[?&]'+n+'=([^&]*)').exec(location.search);return m?decodeURIComponent(m[1].replace(/\+/g,' ')):'';}
+  function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':String(s));return d.innerHTML;}
+  function setText(id,v){var e=document.getElementById(id);if(e){if(v)e.textContent=v;else e.style.display='none';}}
+  var eyebrow=qp('eyebrow')||'A Way Home Canada';
+  document.getElementById('eyebrow').textContent=eyebrow;
+  // title supports a teal-accent token ⟦...⟧
+  var title=qp('title')||'A Way Home Canada';
+  document.getElementById('title').innerHTML=esc(title).replace(/⟦([^⟧]*)⟧/g,'<span class="accent">$1</span>');
+  setText('lead',qp('lead'));
+  setText('caveat',qp('caveat'));
+  document.title=title;
+
+  // optional live KPI stats: ?kpi=1 -> Survey Responses / Policies Changed / Funding from the impact gateway
+  if(qp('kpi')==='1'){
+    var box=document.getElementById('stats');
+    function card(label,val){return '<div class="stat"><span class="label">'+esc(label)+'</span><span class="value">'+esc(val)+'</span></div>';}
+    function dollars(n){return (n==null||isNaN(n))?'—':'$'+Number(n).toLocaleString('en-CA');}
+    function num(n){return (n==null||isNaN(n))?'—':Number(n).toLocaleString('en-CA');}
+    fetch('https://dev1.mareto.helpseeker.org/api/gateway/awh-impact-kpi?v='+Date.now())
+      .then(function(r){return r.ok?r.json():{};}).catch(function(){return {};})
+      .then(function(d){
+        box.innerHTML=card('Survey responses',num(d.responses))+card('Policies / practices changed',num(d.policies))+card('Funding attributed',dollars(d.funding));
+        box.style.display='grid';
+      });
   }
-  function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-  var title = qp('title') || 'A Way Home Canada';
-  var sub = qp('subtitle');
-  var caveat = qp('caveat');
-  // allow a single teal-accent token: wrap text between ⟦ ⟧ in the teal accent span
-  var tEl = document.getElementById('title');
-  tEl.innerHTML = esc(title).replace(/&#x27E6;([^&]*?)&#x27E7;/g, '<span class="accent">$1</span>')
-                            .replace(/⟦([^⟧]*)⟧/g, '<span class="accent">$1</span>');
-  if (sub) document.getElementById('subtitle').textContent = sub;
-  if (caveat) document.getElementById('caveat').textContent = caveat;
-  document.title = title;
 </script>
 </body>
 </html>
