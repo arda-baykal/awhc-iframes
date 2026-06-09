@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A Way Home Canada — Training Impact Check-in</title>
+  <title>A Way Home Canada — Outcomes Survey</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
     :root {
@@ -23,10 +23,10 @@
     body { margin:0; font-family:Lato, -apple-system, BlinkMacSystemFont, Arial, sans-serif; color:var(--text); background:linear-gradient(180deg,var(--mist),#fff 42%); }
     .topbar { background:linear-gradient(135deg,var(--navy),var(--midnight) 58%,#0E8C86); color:#fff; }
     .topbar-inner { max-width:780px; margin:0 auto; padding:36px 24px 32px; }
-    .brand { font-size:13px; letter-spacing:0; font-weight:700; color:var(--aqua); margin:0 0 12px; }
+    .brand { font-size:12px; letter-spacing:1.5px; text-transform:uppercase; font-weight:700; color:var(--aqua); margin:0 0 12px; }
     h1 { font-size:32px; line-height:1.13; margin:0; font-weight:700; max-width:680px; }
     .intro { font-size:16px; line-height:1.55; color:#EAF7F6; margin:14px 0 0; max-width:660px; font-weight:300; }
-    .caveat { font-size:12px; line-height:1.5; color:#BFE3E0; margin:12px 0 0; font-weight:300; }
+    .form-caveat { font-size:12px; line-height:1.5; color:var(--muted); margin:16px 0 0; font-weight:300; text-align:right; opacity:0.8; }
     main { max-width:780px; margin:0 auto; padding:28px 24px 44px; }
     .panel { background:#fff; border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); overflow:hidden; }
     form { padding:32px; }
@@ -92,10 +92,9 @@
 <body>
 <header class="topbar">
   <div class="topbar-inner">
-    <p class="brand">A Way Home Canada</p>
-    <h1>Training Impact Check-in</h1>
-    <p class="intro">A short check-in on how an AWHC learning event shifted what you know and do &mdash; and any longer-term changes that followed. About three minutes.</p>
-    <p class="caveat">Illustrative wording &mdash; pending the final evaluation instrument.</p>
+    <p class="brand">Outcomes Survey</p>
+    <h1>How is our work landing?</h1>
+    <p class="intro">Help A Way Home Canada understand the difference our collective work is making &mdash; in your knowledge, your confidence, your practice, and the systems you work within. This takes about 5 minutes and we send it about twice a year.</p>
   </div>
 </header>
 
@@ -116,27 +115,24 @@
       <div class="grid">
         <div><label for="isr_respondent_name">Your name</label><input id="isr_respondent_name" name="isr_respondent_name" required autocomplete="name"></div>
         <div><label for="isr_respondent_email">Email</label><input id="isr_respondent_email" name="isr_respondent_email" type="email" autocomplete="email"></div>
-        <div><label for="isr_training_attended">Which training?</label><input id="isr_training_attended" name="isr_training_attended" placeholder="Event or session name"></div>
-        <div><label for="isr_training_date">Date attended</label><input id="isr_training_date" name="isr_training_date" type="date"></div>
         <div class="full">
-          <label for="isr_wave">This check-in is</label>
+          <label for="isr_wave">Is this your first time completing this survey?</label>
           <select id="isr_wave" name="isr_wave">
-            <option value="baseline">Baseline (right after the training)</option>
-            <option value="6_month">6-month follow-up</option>
+            <option value="baseline">Yes — this is my first time (baseline)</option>
+            <option value="6_month">No — I've completed it before (6-month check-in)</option>
           </select>
-          <p class="hint">Choose the follow-up if this is a return check-in some months later.</p>
         </div>
       </div>
 
       <div class="divider"></div>
 
-      <p class="section-title">Your training takeaways</p>
-      <p class="section-sub">Rate each from 1 (not at all) to 5 (a great deal), thinking about how this training affected your work.</p>
+      <p class="section-title">Your growth in this work</p>
+      <p class="section-sub">Thinking about your engagement with A Way Home Canada overall &mdash; not any single training or event &mdash; rate each from 1 to 5.</p>
 
       <fieldset class="rating-card">
         <legend>Knowledge</legend>
-        <p class="q-sub">My understanding of the topic.</p>
-        <div class="scale-labels"><span>Not at all</span><span>A great deal</span></div>
+        <p class="q-sub">How would you rate your current knowledge of prevention-focused practice?</p>
+        <div class="scale-labels"><span>1 &middot; No knowledge</span><span>5 &middot; Expert</span></div>
         <div class="rating-options">
           <label class="rating-option"><input type="radio" name="isr_cc_knowledge" value="1"><span>1</span></label>
           <label class="rating-option"><input type="radio" name="isr_cc_knowledge" value="2"><span>2</span></label>
@@ -148,8 +144,8 @@
 
       <fieldset class="rating-card">
         <legend>Confidence</legend>
-        <p class="q-sub">My confidence to act on it.</p>
-        <div class="scale-labels"><span>Not at all</span><span>A great deal</span></div>
+        <p class="q-sub">How confident are you applying this in your work?</p>
+        <div class="scale-labels"><span>1 &middot; Not at all</span><span>5 &middot; Very confident</span></div>
         <div class="rating-options">
           <label class="rating-option"><input type="radio" name="isr_cc_confidence" value="1"><span>1</span></label>
           <label class="rating-option"><input type="radio" name="isr_cc_confidence" value="2"><span>2</span></label>
@@ -161,8 +157,8 @@
 
       <fieldset class="rating-card">
         <legend>Practice</legend>
-        <p class="q-sub">Changes I've made in how I work.</p>
-        <div class="scale-labels"><span>Not at all</span><span>A great deal</span></div>
+        <p class="q-sub">To what extent have you put this into practice in your organization?</p>
+        <div class="scale-labels"><span>1 &middot; Not yet</span><span>5 &middot; Fully embedded</span></div>
         <div class="rating-options">
           <label class="rating-option"><input type="radio" name="isr_cc_practice" value="1"><span>1</span></label>
           <label class="rating-option"><input type="radio" name="isr_cc_practice" value="2"><span>2</span></label>
@@ -174,8 +170,8 @@
 
       <fieldset class="rating-card">
         <legend>Capacity</legend>
-        <p class="q-sub">My team's or organization's ability to act.</p>
-        <div class="scale-labels"><span>Not at all</span><span>A great deal</span></div>
+        <p class="q-sub">Has your organization's capacity to do this work grown since you began engaging with AWHC?</p>
+        <div class="scale-labels"><span>1 &middot; No change</span><span>5 &middot; Significant growth</span></div>
         <div class="rating-options">
           <label class="rating-option"><input type="radio" name="isr_cc_capacity" value="1"><span>1</span></label>
           <label class="rating-option"><input type="radio" name="isr_cc_capacity" value="2"><span>2</span></label>
@@ -187,11 +183,11 @@
 
       <div class="divider"></div>
 
-      <p class="section-title">Longer-term change (optional)</p>
-      <p class="section-sub">If this training has shaped policy, programs, or others' work since, tell us here. Leave blank if not applicable.</p>
+      <p class="section-title">Changes you've influenced (optional)</p>
+      <p class="section-sub">Since engaging with A Way Home Canada, have you been able to&hellip; Leave any blank if not applicable.</p>
       <div class="grid">
         <div>
-          <label for="isr_sys_changed_policy">Has it led to a policy or practice change?</label>
+          <label for="isr_sys_changed_policy">Change a policy or practice in your organization?</label>
           <select id="isr_sys_changed_policy" name="isr_sys_changed_policy">
             <option value="">— Select —</option>
             <option value="Yes">Yes</option>
@@ -199,40 +195,40 @@
           </select>
         </div>
         <div>
-          <label for="isr_sys_policy_status">If so, how far along?</label>
-          <select id="isr_sys_policy_status" name="isr_sys_policy_status">
-            <option value="">— Select —</option>
-            <option value="adopted">Adopted</option>
-            <option value="in_progress">In progress</option>
-            <option value="early">Early stage</option>
-          </select>
+          <label for="isr_sys_programs_launched">Launch new programs or services? How many?</label>
+          <input id="isr_sys_programs_launched" name="isr_sys_programs_launched" type="number" min="0" step="1" inputmode="numeric" placeholder="0">
         </div>
         <div class="full">
           <label for="isr_sys_changed_policy_desc">Describe the policy or practice change</label>
           <textarea id="isr_sys_changed_policy_desc" name="isr_sys_changed_policy_desc"></textarea>
         </div>
         <div>
-          <label for="isr_sys_programs_launched">Programs launched as a result</label>
-          <input id="isr_sys_programs_launched" name="isr_sys_programs_launched" type="number" min="0" step="1" inputmode="numeric">
+          <label for="isr_sys_funding_amount">Secure new funding you attribute to this work? ($)</label>
+          <input id="isr_sys_funding_amount" name="isr_sys_funding_amount" type="number" min="0" step="any" inputmode="decimal" placeholder="0">
         </div>
         <div>
-          <label for="isr_sys_funding_amount">Funding attributed ($)</label>
-          <input id="isr_sys_funding_amount" name="isr_sys_funding_amount" type="number" min="0" step="any" inputmode="decimal">
+          <label for="isr_sys_trained_others">Train or share this knowledge with others? How many?</label>
+          <input id="isr_sys_trained_others" name="isr_sys_trained_others" type="number" min="0" step="1" inputmode="numeric" placeholder="0">
         </div>
         <div>
-          <label for="isr_sys_trained_others">Others you've since trained</label>
-          <input id="isr_sys_trained_others" name="isr_sys_trained_others" type="number" min="0" step="1" inputmode="numeric">
-        </div>
-        <div>
-          <label for="isr_sys_influenced_policy">Did it influence policy elsewhere?</label>
+          <label for="isr_sys_influenced_policy">Influence or contribute to a policy change?</label>
           <select id="isr_sys_influenced_policy" name="isr_sys_influenced_policy">
             <option value="">— Select —</option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>
         </div>
+        <div>
+          <label for="isr_sys_policy_status">If so, what stage is it at?</label>
+          <select id="isr_sys_policy_status" name="isr_sys_policy_status">
+            <option value="">— Select —</option>
+            <option value="adopted">Adopted</option>
+            <option value="in_progress">In-Progress</option>
+            <option value="early">Early</option>
+          </select>
+        </div>
         <div class="full">
-          <label for="isr_sys_policy_desc">Describe the policy influence</label>
+          <label for="isr_sys_policy_desc">Describe the policy change and your role</label>
           <textarea id="isr_sys_policy_desc" name="isr_sys_policy_desc"></textarea>
         </div>
       </div>
@@ -241,6 +237,7 @@
         <p class="footnote">Your response is saved for AWHC impact reporting. You can close this tab once you submit.</p>
         <button type="submit">Submit</button>
       </div>
+      <p class="form-caveat"><em>Sample wording &mdash; final questions pending.</em></p>
     </div>
   </form>
   </div>
