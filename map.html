@@ -264,7 +264,7 @@
   // ===== Load GeoJSON + data in parallel =====
   Promise.all([
     fetch('./canada.geojson').then(r => r.json()),
-    fetch('./events-by-province.json?v=' + Date.now()).then(r => r.ok ? r.json() : { counts: {}, total: 0 }).catch(() => ({ counts: {}, total: 0 }))
+    fetch('https://dev1.mareto.helpseeker.org/api/gateway/awh-events-by-province?v=' + Date.now()).then(r => r.ok ? r.json() : { counts: {}, total: 0 }).catch(() => ({ counts: {}, total: 0 }))
   ]).then(([geojson, data]) => {
     document.getElementById('hero-total').textContent = data.total ?? 0;
     document.getElementById('legend-stamp').textContent = data.generated_at
