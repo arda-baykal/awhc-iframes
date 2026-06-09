@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWHC Impact KPIs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep-navy: #1B2A4A;
+    --navy: #1E3A5F;
+    --teal: #32DAD7;
+    --teal-deep: #0FB9B1;
+    --near-black: #1c2430;
+    --slate: #e3e8ef;
+    --muted: #7a8699;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+    background: transparent;
+    color: var(--near-black);
+    -webkit-font-smoothing: antialiased;
+  }
+  #wrap { padding: 2px; }
+  #cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 880px) { #cards { grid-template-columns: repeat(2, 1fr); } }
+  .card {
+    background: #fff;
+    border: 1px solid var(--slate);
+    border-top: 3px solid var(--teal);
+    border-radius: 10px;
+    padding: 16px 14px 14px;
+    text-align: center;
+    box-shadow: 0 1px 2px rgba(27,42,74,.05);
+  }
+  .card .value {
+    font-size: 30px; font-weight: 700; line-height: 1.05;
+    color: var(--deep-navy);
+    font-variant-numeric: tabular-nums;
+  }
+  .card .label {
+    margin-top: 6px;
+    font-size: 11px; font-weight: 700; letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--teal-deep);
+  }
+  #stamp {
+    margin-top: 10px; text-align: right;
+    font-size: 10px; font-weight: 300; color: var(--muted);
+  }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="cards">
+    <div class="card"><div class="value" id="v-responses">—</div><div class="label">Survey Responses</div></div>
+    <div class="card"><div class="value" id="v-policies">—</div><div class="label">Policies / Practices Changed</div></div>
+    <div class="card"><div class="value" id="v-funding">—</div><div class="label">Funding Attributed</div></div>
+    <div class="card"><div class="value" id="v-trained">—</div><div class="label">People Trained</div></div>
+    <div class="card"><div class="value" id="v-programs">—</div><div class="label">Programs Launched</div></div>
+  </div>
+  <div id="stamp"></div>
+</div>
+<script>
+  function num(n) { return (n == null || isNaN(n)) ? "—" : Number(n).toLocaleString("en-CA"); }
+  function dollars(n) { return (n == null || isNaN(n)) ? "—" : "$" + Number(n).toLocaleString("en-CA"); }
+  function set(id, txt) { var el = document.getElementById(id); if (el) el.textContent = txt; }
+  function render(d) {
+    d = d || {};
+    set("v-responses", num(d.responses));
+    set("v-policies",  num(d.policies));
+    set("v-funding",   dollars(d.funding));
+    set("v-trained",   num(d.trained));
+    set("v-programs",  num(d.programs));
+    if (d.generated_at) {
+      var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(d.generated_at));
+      if (m) {
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        set("stamp", "Refreshed " + months[parseInt(m[2],10)-1] + " " + parseInt(m[3],10) + ", " + m[1]);
+      }
+    }
+  }
+  fetch('https://dev1.mareto.helpseeker.org/api/gateway/awh-impact-kpi?v=' + Date.now())
+    .then(function (r) { return r.ok ? r.json() : {}; })
+    .catch(function () { return {}; })
+    .then(render);
+</script>
+</body>
+</html>
