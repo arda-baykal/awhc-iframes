@@ -14,6 +14,11 @@
 .title .accent{color:var(--aqua)}
 .lead{margin:0;max-width:760px;color:var(--soft);font-size:15px;line-height:1.45;font-weight:300}
 .caveat{margin:8px 0 0;color:#9fb6cf;font-size:12px;font-style:italic;font-weight:300}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start}
+.btn{display:inline-flex;align-items:center;gap:7px;text-decoration:none;border-radius:7px;padding:12px 18px;font-size:14px;font-weight:700;line-height:1;white-space:nowrap}
+.btn.primary{background:var(--teal);color:#0B1F33;box-shadow:0 6px 16px rgba(50,218,215,.25)}
+.btn.primary:hover{background:#4FD1C5}
+@media(max-width:720px){.actions{width:100%}.btn{width:100%;justify-content:center}}
 .stats{display:grid;grid-template-columns:repeat(3,minmax(160px,1fr));gap:10px;margin-top:18px}
 .stat{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.10);border-radius:8px;padding:12px 14px}
 .label{display:block;margin-bottom:6px;color:#7EDDD5;font-size:11px;font-weight:700;text-transform:uppercase}
@@ -30,6 +35,7 @@
       <p class="lead" id="lead"></p>
       <p class="caveat" id="caveat"></p>
     </div>
+    <div class="actions" id="actions"></div>
   </div>
   <div class="stats" id="stats" style="display:none"></div>
 </section>
@@ -45,6 +51,17 @@
   setText('lead',qp('lead'));
   setText('caveat',qp('caveat'));
   document.title=title;
+
+  // optional CTA button (top-right): ?cta=<url>&ctalabel=<text>
+  var cta=qp('cta');
+  if(cta){
+    var label=qp('ctalabel')||'Open the survey';
+    var a=document.createElement('a');
+    a.className='btn primary';
+    a.href=cta; a.target='_blank'; a.rel='noopener';
+    a.textContent=label;
+    document.getElementById('actions').appendChild(a);
+  }
 
   // optional live KPI stats: ?kpi=1 -> Survey Responses / Policies Changed / Funding from the impact gateway
   if(qp('kpi')==='1'){
