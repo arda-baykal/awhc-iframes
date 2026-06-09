@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Way Home Canada — Training Impact Check-in</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+    :root {
+      --navy:#0B1F33;
+      --midnight:#102A43;
+      --ocean:#2C5282;
+      --teal:#0FB9B1;
+      --aqua:#4FD1C5;
+      --mist:#EDF5F4;
+      --pale:#E0F0EE;
+      --text:#0A0A0A;
+      --muted:#4A5568;
+      --border:#E5E7EB;
+      --shadow:0 18px 46px rgba(11,31,51,.14);
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:Lato, -apple-system, BlinkMacSystemFont, Arial, sans-serif; color:var(--text); background:linear-gradient(180deg,var(--mist),#fff 42%); }
+    .topbar { background:linear-gradient(135deg,var(--navy),var(--midnight) 58%,#0E8C86); color:#fff; }
+    .topbar-inner { max-width:780px; margin:0 auto; padding:36px 24px 32px; }
+    .brand { font-size:13px; letter-spacing:0; font-weight:700; color:var(--aqua); margin:0 0 12px; }
+    h1 { font-size:32px; line-height:1.13; margin:0; font-weight:700; max-width:680px; }
+    .intro { font-size:16px; line-height:1.55; color:#EAF7F6; margin:14px 0 0; max-width:660px; font-weight:300; }
+    .caveat { font-size:12px; line-height:1.5; color:#BFE3E0; margin:12px 0 0; font-weight:300; }
+    main { max-width:780px; margin:0 auto; padding:28px 24px 44px; }
+    .panel { background:#fff; border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); overflow:hidden; }
+    form { padding:32px; }
+    .privacy { background:var(--mist); border:1px solid var(--pale); border-radius:6px; padding:12px 16px; margin:0 0 26px; font-size:13px; color:var(--navy); line-height:1.5; }
+    .section-title { font-size:15px; font-weight:700; color:var(--navy); margin:0 0 16px; padding-left:12px; border-left:4px solid var(--teal); }
+    .section-sub { font-size:13px; color:var(--muted); margin:-8px 0 16px; padding-left:12px; line-height:1.45; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .full { grid-column:1 / -1; }
+    label, legend { display:block; font-size:14px; color:var(--navy); font-weight:700; margin:0 0 7px; }
+    .hint { color:var(--muted); font-size:13px; line-height:1.4; margin:7px 0 0; }
+    input, select, textarea { width:100%; border:1px solid #C9D5E2; border-radius:6px; padding:12px 13px; font:400 16px Lato, Arial, sans-serif; color:var(--text); background:#fff; }
+    input:focus, select:focus, textarea:focus { outline:3px solid rgba(15,185,177,.22); border-color:var(--teal); }
+    textarea { min-height:104px; resize:vertical; }
+    .divider { height:1px; background:var(--border); margin:28px 0; }
+
+    /* Commitment-curve 1-5 rating scale (matches reg/survey form pattern) */
+    .rating-card { border:1px solid var(--border); border-radius:8px; padding:18px 18px 16px; margin:0 0 16px; background:#fff; }
+    .rating-card legend { font-size:15px; font-weight:700; color:var(--navy); margin:0 0 4px; padding:0; }
+    .rating-card .q-sub { font-size:13px; color:var(--muted); margin:0 0 14px; line-height:1.4; }
+    .scale-labels { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin:0 0 8px; }
+    .rating-options { display:flex; justify-content:space-between; gap:6px; }
+    .rating-option { margin:0; flex:1 1 0; min-width:0; position:relative; cursor:pointer; }
+    .rating-option input { position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:pointer; z-index:2; }
+    .rating-option span { display:flex; align-items:center; justify-content:center; min-height:48px; position:relative; z-index:1; text-align:center; border:1px solid #C9D5E2; border-radius:6px; padding:8px 0; color:var(--navy); background:var(--mist); font-weight:700; font-size:15px; transition:background 120ms ease, color 120ms ease; }
+    .rating-option:hover span { background:var(--pale); }
+    .rating-option input:checked + span { background:var(--navy); color:#fff; border-color:var(--navy); }
+    .rating-option input:focus-visible + span { outline:3px solid rgba(15,185,177,.35); outline-offset:1px; }
+
+    .check { display:flex; gap:12px; align-items:flex-start; padding:14px 16px; border:1px solid var(--border); border-radius:8px; background:var(--mist); margin:0 0 4px; }
+    .check input { width:auto; margin-top:3px; }
+    .check span { color:var(--navy); font-weight:400; line-height:1.45; }
+    .actions { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:28px; }
+    button { background:var(--teal); color:#fff; border:0; border-radius:6px; padding:14px 28px; font:700 15px Lato, Arial, sans-serif; cursor:pointer; min-width:172px; letter-spacing:0.3px; }
+    button:hover { background:#0EA29B; }
+    .footnote { color:var(--muted); font-size:13px; margin:0; max-width:380px; line-height:1.45; }
+    .footer { text-align:center; padding:18px 24px 36px; color:var(--muted); font-size:12px; }
+    .footer strong { color:var(--navy); font-weight:700; }
+
+    /* Success state */
+    .success { display:none; text-align:center; padding:48px 28px; }
+    .success.show { display:block; }
+    .success .tick { width:64px; height:64px; border-radius:50%; background:var(--teal); margin:0 auto 20px; position:relative; }
+    .success .tick:after { content:""; position:absolute; left:23px; top:14px; width:14px; height:28px; border:solid #fff; border-width:0 4px 4px 0; transform:rotate(45deg); }
+    .success h2 { font-size:24px; color:var(--navy); margin:0 0 10px; font-weight:700; }
+    .success p { font-size:15px; color:var(--muted); margin:0 auto; max-width:440px; line-height:1.55; }
+
+    @media (max-width:680px) {
+      .topbar-inner { padding:28px 18px 24px; }
+      h1 { font-size:26px; }
+      main { padding:20px 12px 32px; }
+      form { padding:22px; }
+      .grid { grid-template-columns:1fr; }
+      .full { grid-column:auto; }
+      .rating-card { padding:16px; }
+      .rating-options { gap:5px; }
+      .rating-option span { min-height:44px; font-size:14px; }
+      .actions { align-items:stretch; flex-direction:column-reverse; }
+      button { width:100%; min-width:0; }
+      .footnote { max-width:none; }
+    }
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <p class="brand">A Way Home Canada</p>
+    <h1>Training Impact Check-in</h1>
+    <p class="intro">A short check-in on how an AWHC learning event shifted what you know and do &mdash; and any longer-term changes that followed. About three minutes.</p>
+    <p class="caveat">Illustrative wording &mdash; pending the final evaluation instrument.</p>
+  </div>
+</header>
+
+<main>
+  <div class="panel">
+  <form id="impactForm" method="post" action="/api/gateway/awh-impact-survey">
+
+    <div class="success" id="successState">
+      <div class="tick"></div>
+      <h2>Thank you</h2>
+      <p>Your response has been recorded. Aggregated results help A Way Home Canada measure the impact of its learning events. You can close this tab.</p>
+    </div>
+
+    <div id="formBody">
+      <p class="privacy"><strong>Confidential.</strong> Outcome reports only show aggregated scores once two or more people have responded. Your individual answers are never published.</p>
+
+      <p class="section-title">About you</p>
+      <div class="grid">
+        <div><label for="isr_respondent_name">Your name</label><input id="isr_respondent_name" name="isr_respondent_name" required autocomplete="name"></div>
+        <div><label for="isr_respondent_email">Email</label><input id="isr_respondent_email" name="isr_respondent_email" type="email" autocomplete="email"></div>
+        <div><label for="isr_training_attended">Which training?</label><input id="isr_training_attended" name="isr_training_attended" placeholder="Event or session name"></div>
+        <div><label for="isr_training_date">Date attended</label><input id="isr_training_date" name="isr_training_date" type="date"></div>
+        <div class="full">
+          <label for="isr_wave">This check-in is</label>
+          <select id="isr_wave" name="isr_wave">
+            <option value="baseline">Baseline (right after the training)</option>
+            <option value="6_month">6-month follow-up</option>
+          </select>
+          <p class="hint">Choose the follow-up if this is a return check-in some months later.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <p class="section-title">Your training takeaways</p>
+      <p class="section-sub">Rate each from 1 (not at all) to 5 (a great deal), thinking about how this training affected your work.</p>
+
+      <fieldset class="rating-card">
+        <legend>Knowledge</legend>
+        <p class="q-sub">My understanding of the topic.</p>
+        <div class="scale-labels"><span>Not at all</span><span>A great deal</span></div>
+        <div class="rating-options">
+          <label class="rating-option"><input type="radio" name="isr_cc_knowledge" value="1"><span>1</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_knowledge" value="2"><span>2</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_knowledge" value="3"><span>3</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_knowledge" value="4"><span>4</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_knowledge" value="5"><span>5</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="rating-card">
+        <legend>Confidence</legend>
+        <p class="q-sub">My confidence to act on it.</p>
+        <div class="scale-labels"><span>Not at all</span><span>A great deal</span></div>
+        <div class="rating-options">
+          <label class="rating-option"><input type="radio" name="isr_cc_confidence" value="1"><span>1</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_confidence" value="2"><span>2</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_confidence" value="3"><span>3</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_confidence" value="4"><span>4</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_confidence" value="5"><span>5</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="rating-card">
+        <legend>Practice</legend>
+        <p class="q-sub">Changes I've made in how I work.</p>
+        <div class="scale-labels"><span>Not at all</span><span>A great deal</span></div>
+        <div class="rating-options">
+          <label class="rating-option"><input type="radio" name="isr_cc_practice" value="1"><span>1</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_practice" value="2"><span>2</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_practice" value="3"><span>3</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_practice" value="4"><span>4</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_practice" value="5"><span>5</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="rating-card">
+        <legend>Capacity</legend>
+        <p class="q-sub">My team's or organization's ability to act.</p>
+        <div class="scale-labels"><span>Not at all</span><span>A great deal</span></div>
+        <div class="rating-options">
+          <label class="rating-option"><input type="radio" name="isr_cc_capacity" value="1"><span>1</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_capacity" value="2"><span>2</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_capacity" value="3"><span>3</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_capacity" value="4"><span>4</span></label>
+          <label class="rating-option"><input type="radio" name="isr_cc_capacity" value="5"><span>5</span></label>
+        </div>
+      </fieldset>
+
+      <div class="divider"></div>
+
+      <p class="section-title">Longer-term change (optional)</p>
+      <p class="section-sub">If this training has shaped policy, programs, or others' work since, tell us here. Leave blank if not applicable.</p>
+      <div class="grid">
+        <div>
+          <label for="isr_sys_changed_policy">Has it led to a policy or practice change?</label>
+          <select id="isr_sys_changed_policy" name="isr_sys_changed_policy">
+            <option value="">— Select —</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div>
+          <label for="isr_sys_policy_status">If so, how far along?</label>
+          <select id="isr_sys_policy_status" name="isr_sys_policy_status">
+            <option value="">— Select —</option>
+            <option value="adopted">Adopted</option>
+            <option value="in_progress">In progress</option>
+            <option value="early">Early stage</option>
+          </select>
+        </div>
+        <div class="full">
+          <label for="isr_sys_changed_policy_desc">Describe the policy or practice change</label>
+          <textarea id="isr_sys_changed_policy_desc" name="isr_sys_changed_policy_desc"></textarea>
+        </div>
+        <div>
+          <label for="isr_sys_programs_launched">Programs launched as a result</label>
+          <input id="isr_sys_programs_launched" name="isr_sys_programs_launched" type="number" min="0" step="1" inputmode="numeric">
+        </div>
+        <div>
+          <label for="isr_sys_funding_amount">Funding attributed ($)</label>
+          <input id="isr_sys_funding_amount" name="isr_sys_funding_amount" type="number" min="0" step="any" inputmode="decimal">
+        </div>
+        <div>
+          <label for="isr_sys_trained_others">Others you've since trained</label>
+          <input id="isr_sys_trained_others" name="isr_sys_trained_others" type="number" min="0" step="1" inputmode="numeric">
+        </div>
+        <div>
+          <label for="isr_sys_influenced_policy">Did it influence policy elsewhere?</label>
+          <select id="isr_sys_influenced_policy" name="isr_sys_influenced_policy">
+            <option value="">— Select —</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div class="full">
+          <label for="isr_sys_policy_desc">Describe the policy influence</label>
+          <textarea id="isr_sys_policy_desc" name="isr_sys_policy_desc"></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <p class="footnote">Your response is saved for AWHC impact reporting. You can close this tab once you submit.</p>
+        <button type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+  </div>
+  <p class="footer">A Way Home Canada &middot; powered by <strong>HelpSeeker</strong></p>
+</main>
+
+<script>
+  // Show a branded success state after submit. The gateway POST handler returns
+  // the capture result; we show the thank-you panel optimistically on submit so
+  // the public user gets immediate, branded confirmation.
+  (function () {
+    var params = new URLSearchParams(location.search);
+    // If the gateway redirects back with ?submitted=1, show success immediately.
+    if (params.get("submitted") === "1") {
+      document.getElementById("formBody").style.display = "none";
+      document.getElementById("successState").classList.add("show");
+    }
+    var form = document.getElementById("impactForm");
+    form.addEventListener("submit", function () {
+      // Let the native POST proceed; reveal success and hide the body.
+      document.getElementById("formBody").style.display = "none";
+      document.getElementById("successState").classList.add("show");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  })();
+</script>
+</body>
+</html>
