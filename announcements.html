@@ -125,7 +125,7 @@
       cards.appendChild(card);
     });
   }
-  fetch('https://dev1.mareto.helpseeker.org/api/gateway/awh-announcements?v=' + Date.now())
+  fetch('https://main.mareto.helpseeker.org/api/gateway/awh-announcements?v=' + Date.now())
     .then(function (r) { return r.ok ? r.json() : { items: [] }; })
     .catch(function () { return { items: [] }; })
     .then(function (data) {
