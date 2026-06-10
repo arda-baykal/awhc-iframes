@@ -69,7 +69,7 @@
     function card(label,val){return '<div class="stat"><span class="label">'+esc(label)+'</span><span class="value">'+esc(val)+'</span></div>';}
     function dollars(n){return (n==null||isNaN(n))?'—':'$'+Number(n).toLocaleString('en-CA');}
     function num(n){return (n==null||isNaN(n))?'—':Number(n).toLocaleString('en-CA');}
-    fetch('https://dev1.mareto.helpseeker.org/api/gateway/awh-impact-kpi?v='+Date.now())
+    fetch('https://main.mareto.helpseeker.org/api/gateway/awh-impact-kpi?v='+Date.now())
       .then(function(r){return r.ok?r.json():{};}).catch(function(){return {};})
       .then(function(d){
         box.innerHTML=card('Survey responses',num(d.responses))+card('Policies / practices changed',num(d.policies))+card('Funding attributed',dollars(d.funding));
